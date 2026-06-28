@@ -1,315 +1,339 @@
-# AI Interview Practice Partner 🎯
+<img width="1919" height="966" alt="Screenshot 2026-06-29 013455" src="https://github.com/user-attachments/assets/97a8b8e1-6247-4417-92a3-fa416a7cb00e" />Interview Partner – AI Powered Interview Preparation Platform
 
-A production-ready AI-powered interview preparation platform that helps candidates practice technical and behavioral interviews with real-time feedback, personalized question generation, and comprehensive performance analytics.
+Practice technical, HR, and behavioral interviews with an AI-powered interview assistant.
 
----
+Interview Partner is a full-stack interview preparation platform that simulates real interview experiences through text, voice, and virtual interview modes. It provides resume-aware question generation, adaptive follow-up questions, AI-powered evaluation, coding interviews, performance analytics, and personalized learning recommendations.
 
-## Table of Contents
+Live Demo: https://interview-partner-orcin.vercel.app/
 
-- [Overview](#overview)
-- [Tech Stack](#tech-stack)
-- [Architecture Overview](#architecture-overview)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Docker Setup (Recommended)](#docker-setup-recommended)
-  - [Manual Setup](#manual-setup)
-- [Environment Variables](#environment-variables)
-- [API Documentation](#api-documentation)
-- [Deployment](#deployment)
-  - [Frontend — Vercel](#frontend--vercel)
-  - [Backend — Railway](#backend--railway)
-- [Contributing](#contributing)
-- [License](#license)
+Table of Contents
 
----
+Features
+Authentication
+Interview Modes
+Resume-Based Interviews
+Coding Interviews
+AI Evaluation & Feedback
+Dashboard & Analytics
+System Architecture Overview
+High Level Architecture
+Interview Workflow
+AI Agent System
+Design Decisions
+UI/UX
+Tech Stack
+Getting Started
+Clone & Install
+Environment Variables
+Run Development Servers
+Deployment
+Future Improvements
+License
+Contact
 
-## Overview
 
-AI Interview Practice Partner provides:
+Features
 
-- **Personalized interview sessions** driven by LLM-based question generation (Groq / Gemini / OpenRouter)
-- **Resume parsing** to tailor questions to a candidate's background
-- **Real-time AI feedback** on answers with scoring and improvement tips
-- **Code interview support** with an in-browser Monaco editor
-- **Performance analytics** and progress tracking over time
-- **PDF report generation** for each completed session
-- **WebSocket-powered** live interviewer experience
+Authentication
 
----
+User registration and login
+JWT-based authentication
+Secure password management
+Protected routes
+User profile management
 
-## Tech Stack
 
-### Frontend
-| Technology | Purpose |
-|---|---|
-| React 18 + Vite | UI framework and build tool |
-| TypeScript | Type safety |
-| Tailwind CSS | Utility-first styling |
-| Radix UI | Accessible component primitives |
-| TanStack Query | Server state management |
-| Zustand | Client state management |
-| Framer Motion | Animations |
-| Monaco Editor | In-browser code editor |
-| Socket.IO Client | Real-time communication |
-| React Hook Form + Zod | Form handling and validation |
-| Recharts | Analytics charts |
-| jsPDF | PDF report generation |
+Interview Modes
 
-### Backend
-| Technology | Purpose |
-|---|---|
-| FastAPI | Async REST API framework |
-| LangGraph + LangChain | AI agent orchestration |
-| Groq / Gemini / OpenRouter | LLM providers |
-| ChromaDB | Vector store for RAG |
-| PostgreSQL 15 | Primary database |
-| SQLAlchemy + Alembic | ORM and migrations |
-| Redis + Celery | Task queue and caching |
-| WebSockets | Real-time interview streaming |
-| PyMuPDF + python-docx | Resume parsing |
-| Sentence Transformers | Local embeddings |
-| ReportLab | PDF generation |
-| Passlib + python-jose | Auth (JWT + bcrypt) |
+Interview Partner supports multiple interview experiences.
 
-### Infrastructure
-| Technology | Purpose |
-|---|---|
-| Docker + Docker Compose | Local development |
-| PostgreSQL 15 | Relational data |
-| ChromaDB | Vector embeddings |
-| Redis | Cache + Celery broker |
+Text Interview
+AI-generated interview questions
+Adaptive follow-up questions
+Real-time answer evaluation
 
----
+Voice Interview
+Speech-to-Text conversation
+AI voice responses
+Natural interview interaction
+Live transcription
 
-## Architecture Overview
+Virtual Interview
+Camera-enabled interviews
+Face detection
+Tab-switch monitoring
+Microphone monitoring
+Browser activity tracking
+
+Resume-Based Interviews
+
+Users can upload their resume before starting an interview.
+
+The AI extracts:
+
+* Skills
+* Technologies
+* Projects
+* Work Experience
+* Certifications
+
+Interview questions are dynamically generated based on the uploaded resume.
+
+Coding Interviews
+
+Coding interviews include:
+
+* Built-in code editor
+* Python support
+* JavaScript support
+* AI code evaluation
+* Complexity analysis
+* Coding feedback
+
+AI Evaluation & Feedback
+
+After every interview the platform generates a comprehensive performance report including:
+
+* Overall Score
+* Technical Knowledge
+* Communication Skills
+* Problem Solving
+* Confidence
+* Grammar & Clarity
+
+The report also includes:
+
+* Strengths
+* Areas for Improvement
+* Question-wise Feedback
+* Personalized Learning Recommendations
+
+Dashboard & Analytics
+
+The dashboard allows users to:
+
+* View interview history
+* Track performance over time
+* Analyze score trends
+* Review previous reports
+* Monitor skill improvement
+
+ System Architecture Overview
+
+Interview Partner combines modern web technologies with AI services to create an adaptive interview platform.
+
+High Level Architecture
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                        Frontend                         │
-│              React + Vite (port 5173)                   │
-└──────────────────────┬──────────────────────────────────┘
-                       │ HTTP / WebSocket
-┌──────────────────────▼──────────────────────────────────┐
-│                    FastAPI Backend                       │
-│                     (port 8000)                         │
-│  ┌─────────────┐  ┌──────────────┐  ┌───────────────┐  │
-│  │  Auth/Users │  │  Interview   │  │  Analytics    │  │
-│  │   Router    │  │   Router     │  │   Router      │  │
-│  └─────────────┘  └──────┬───────┘  └───────────────┘  │
-│                          │                              │
-│  ┌───────────────────────▼─────────────────────────┐   │
-│  │           LangGraph Agent Orchestrator           │   │
-│  │  (Question Gen → Evaluation → Feedback Loop)    │   │
-│  └───────────────────────┬─────────────────────────┘   │
-└──────────────────────────┼──────────────────────────────┘
-                           │
-         ┌─────────────────┼─────────────────┐
-         │                 │                 │
-┌────────▼──────┐  ┌───────▼──────┐  ┌──────▼──────┐
-│  PostgreSQL   │  │   ChromaDB   │  │    Redis    │
-│  (port 5432)  │  │  (port 8001) │  │  (port 6379)│
-└───────────────┘  └──────────────┘  └─────────────┘
+User
+        │
+        ▼
+React Frontend
+        │
+        ▼
+FastAPI Backend
+        │
+        ▼
+LangGraph Agent System
+        │
+        ▼
+Groq / Gemini
+        │
+        ▼
+PostgreSQL Database
 ```
 
-### Key Data Flows
+ Interview Workflow
 
-1. **Resume Upload** → PyMuPDF/python-docx parsing → Sentence Transformer embeddings → ChromaDB storage
-2. **Interview Start** → LangGraph agent reads resume context → generates tailored questions
-3. **Answer Submission** → LLM evaluates answer → scores stored in PostgreSQL → feedback streamed via WebSocket
-4. **Report Generation** → Celery background task → ReportLab PDF → stored and served
 
----
+User Login
 
-## Getting Started
+↓
 
-### Prerequisites
+Create Interview
 
-- [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/) (v2+)
-- [Node.js](https://nodejs.org/) 18+ (for manual frontend setup)
-- [Python](https://www.python.org/) 3.11+ (for manual backend setup)
-- A [Groq API key](https://console.groq.com/) (free tier available)
+↓
 
----
+Upload Resume (Optional)
 
-### Docker Setup (Recommended)
+↓
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/your-org/ai-interview-partner.git
-   cd ai-interview-partner
-   ```
+Select Interview Mode
 
-2. **Configure environment variables**
-   ```bash
-   cp backend/.env.example backend/.env
-   cp frontend/.env.example frontend/.env
-   ```
-   Edit `backend/.env` and add your API keys (at minimum `GROQ_API_KEY`).
+↓
 
-3. **Start all services**
-   ```bash
-   docker compose up --build
-   ```
+AI Generates Question
 
-4. **Access the application**
-   - Frontend: http://localhost:5173
-   - Backend API: http://localhost:8000
-   - API Docs (Swagger): http://localhost:8000/docs
-   - API Docs (ReDoc): http://localhost:8000/redoc
+↓
 
-5. **Run database migrations** (first time only)
-   ```bash
-   docker compose exec backend alembic upgrade head
-   ```
+User Responds
 
----
+↓
 
-### Manual Setup
+AI Evaluates Response
 
-#### Backend
+↓
 
-```bash
-cd backend
+Adaptive Follow-up
 
-# Create and activate virtual environment
-python -m venv venv
-source venv/bin/activate        # Linux/macOS
-# venv\Scripts\activate         # Windows
+↓
 
-# Install dependencies
-pip install -r requirements.txt
+Interview Completion
 
-# Configure environment
-cp .env.example .env
-# Edit .env with your values
+↓
 
-# Start PostgreSQL and Redis (via Docker or locally)
-docker compose up postgres redis chromadb -d
+Performance Report
 
-# Run migrations
-alembic upgrade head
+↓
 
-# Start the development server
-uvicorn app.main:app --reload --port 8000
-```
+Dashboard
 
-#### Frontend
+ AI Agent System
 
-```bash
-cd frontend
+The platform uses multiple AI agents that collaborate during an interview.
 
-# Install dependencies
+| Agent                | Responsibility                               |
+| -------------------- | -------------------------------------------- |
+| Interview Planner    | Creates interview flow                       |
+| Resume Analyzer      | Extracts resume information                  |
+| Question Generator   | Generates interview questions                |
+| Evaluation Agent     | Scores candidate responses                   |
+| Follow-up Agent      | Generates contextual follow-up questions     |
+| Report Generator     | Creates the final interview report           |
+| Recommendation Agent | Generates personalized study recommendations |
+
+ Design Decisions
+
+* Voice and virtual interviews provide a realistic interview experience.
+* Resume-aware interviews personalize questions for every candidate.
+* Adaptive questioning adjusts interview difficulty based on previous responses.
+* Modular AI agents simplify future expansion.
+* PostgreSQL stores interview history and reports.
+* FastAPI provides scalable backend APIs.
+* React delivers a responsive single-page application.
+
+UI/UX
+
+The interface is designed to provide a distraction-free interview experience.
+
+Key design principles include:
+
+* Clean interface
+* Responsive design
+* Simple navigation
+* Real-time feedback
+* Accessible components
+* Dark and Light mode support
+
+
+Tech Stack
+
+ Frontend
+
+* React
+* TypeScript
+* Vite
+* Tailwind CSS
+* ShadCN UI
+* Framer Motion
+
+Backend
+
+* FastAPI
+* Python
+* SQLAlchemy
+* PostgreSQL
+* Alembic
+
+AI
+
+* LangChain
+* LangGraph
+* Groq API
+* Google Gemini API
+
+Voice
+
+* Web Speech API
+
+Authentication
+
+* JWT Authentication
+
+Deployment
+
+* Vercel
+* Render 
+
+
+Getting Started
+
+Clone & Install
+git clone https://github.com/yourusername/interview-partner.git
+
+cd interview-partner
+
 npm install
 
-# Configure environment
-cp .env.example .env
-# Edit .env if needed
 
-# Start the development server
+Environment Variables
+
+Backend
+
+DATABASE_URL=
+
+SECRET_KEY=
+
+GROQ_API_KEY=
+
+GEMINI_API_KEY=
+Frontend
+
+VITE_API_URL=
+
+VITE_BACKEND_URL=
+Run Development Servers
+
+Frontend
+
+
 npm run dev
-```
 
----
 
-## Environment Variables
+Backend
 
-### Backend (`backend/.env`)
+uvicorn app.main:app --reload
+Deployment
 
-| Variable | Description | Default |
-|---|---|---|
-| `DATABASE_URL` | PostgreSQL connection string | `postgresql://user:password@localhost:5432/interview_db` |
-| `SECRET_KEY` | JWT signing key — **use a strong random value in production** | — |
-| `ALGORITHM` | JWT algorithm | `HS256` |
-| `ACCESS_TOKEN_EXPIRE_MINUTES` | JWT expiry | `30` |
-| `GROQ_API_KEY` | Groq LLM API key | — |
-| `GEMINI_API_KEY` | Google Gemini API key (optional) | — |
-| `OPENROUTER_API_KEY` | OpenRouter API key (optional) | — |
-| `CHROMA_HOST` | ChromaDB host | `localhost` |
-| `CHROMA_PORT` | ChromaDB port | `8001` |
-| `REDIS_URL` | Redis connection URL | `redis://localhost:6379` |
-| `GOOGLE_CLIENT_ID` | Google OAuth2 client ID | — |
-| `GOOGLE_CLIENT_SECRET` | Google OAuth2 client secret | — |
-| `FRONTEND_URL` | Allowed CORS origin | `http://localhost:5173` |
-| `MAX_FILE_SIZE` | Max resume upload size (bytes) | `10485760` (10 MB) |
-| `ALLOWED_EXTENSIONS` | Permitted upload types | `pdf,docx` |
+Frontend
 
-### Frontend (`frontend/.env`)
+* Vercel
 
-| Variable | Description | Default |
-|---|---|---|
-| `VITE_API_URL` | Backend API base URL | `http://localhost:8000` |
-| `VITE_WS_URL` | WebSocket URL | `ws://localhost:8000` |
-| `VITE_GOOGLE_CLIENT_ID` | Google OAuth2 client ID | — |
+Backend
 
----
+* Render 
 
-## API Documentation
+Database
 
-Interactive API docs are auto-generated by FastAPI:
+* PostgreSQL
 
-- **Swagger UI**: http://localhost:8000/docs
-- **ReDoc**: http://localhost:8000/redoc
-- **OpenAPI JSON**: http://localhost:8000/openapi.json
+Future Improvements
 
-### Key Endpoints
+* Company-specific interview templates
+* AI video interviews
+* Emotion analysis
+* Multi-language support
+* Resume ATS analysis
+* Mock group discussions
+* Interview scheduling
+ License
 
-| Method | Path | Description |
-|---|---|---|
-| `POST` | `/api/v1/auth/register` | Register new user |
-| `POST` | `/api/v1/auth/login` | Login, receive JWT |
-| `POST` | `/api/v1/auth/google` | Google OAuth2 login |
-| `POST` | `/api/v1/resumes/upload` | Upload resume (PDF/DOCX) |
-| `GET` | `/api/v1/resumes/` | List user resumes |
-| `POST` | `/api/v1/interviews/start` | Start interview session |
-| `POST` | `/api/v1/interviews/{id}/answer` | Submit answer |
-| `GET` | `/api/v1/interviews/{id}/feedback` | Get session feedback |
-| `GET` | `/api/v1/analytics/dashboard` | Performance dashboard data |
-| `GET` | `/api/v1/reports/{id}` | Download PDF report |
-| `WS` | `/ws/interview/{session_id}` | Real-time interview WebSocket |
+This project is licensed under the MIT License.
+ Contact
 
----
+Sanjaya M
 
-## Deployment
+GitHub: [https://github.com/Sanjaya1822](https://github.com/Sanjaya1822)
 
-### Frontend — Vercel
-
-1. Push your repository to GitHub.
-2. Import the project at [vercel.com/new](https://vercel.com/new).
-3. Set the **Root Directory** to `frontend`.
-4. Vercel auto-detects Vite — confirm build command `npm run build` and output `dist`.
-5. Add environment variables in the Vercel dashboard:
-   - `VITE_API_URL` → your Railway backend URL
-   - `VITE_WS_URL` → your Railway WebSocket URL
-   - `VITE_GOOGLE_CLIENT_ID`
-6. Deploy.
-
-### Backend — Railway
-
-1. Create a new project at [railway.app](https://railway.app).
-2. Add a **GitHub** service pointing to your repo, root directory `backend`.
-3. Add a **PostgreSQL** plugin and a **Redis** plugin.
-4. Add a **ChromaDB** service using the `chromadb/chroma` Docker image.
-5. Set all required environment variables (see table above) using Railway's variable manager.
-6. Railway will detect `requirements.txt` and deploy automatically.
-7. Add a custom start command:
-   ```
-   alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT
-   ```
-
----
-
-## Contributing
-
-1. Fork the repository.
-2. Create a feature branch: `git checkout -b feature/your-feature-name`.
-3. Commit your changes: `git commit -m "feat: add your feature"`.
-4. Push the branch: `git push origin feature/your-feature-name`.
-5. Open a Pull Request.
-
-Please follow [Conventional Commits](https://www.conventionalcommits.org/) and ensure all tests pass before submitting.
-
----
-
-## License
-
-MIT License. See [LICENSE](LICENSE) for details.
+LinkedIn: linkedin.com/in/sanjaya-m-085738349
+Email: san9345420@gmail.com
