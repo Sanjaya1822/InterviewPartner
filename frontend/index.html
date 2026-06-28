@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en" class="h-full dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#6366f1" />
+
+    <!-- Primary Meta Tags -->
+    <title>AI Interview Practice Partner</title>
+    <meta name="title" content="AI Interview Practice Partner" />
+    <meta
+      name="description"
+      content="Practice technical and behavioral interviews with an AI-powered partner. Get real-time feedback, personalized questions, and detailed performance analytics."
+    />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://interview-partner.app/" />
+    <meta property="og:title" content="AI Interview Practice Partner" />
+    <meta
+      property="og:description"
+      content="Practice technical and behavioral interviews with an AI-powered partner."
+    />
+    <meta property="og:image" content="/og-image.png" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://interview-partner.app/" />
+    <meta property="twitter:title" content="AI Interview Practice Partner" />
+    <meta
+      property="twitter:description"
+      content="Practice technical and behavioral interviews with an AI-powered partner."
+    />
+    <meta property="twitter:image" content="/og-image.png" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Preconnect to improve font loading performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Monaco Editor worker files -->
+    <script>
+      // Required for Monaco Editor to load web workers correctly via Vite
+      window.MonacoEnvironment = {
+        getWorkerUrl: function (moduleId, label) {
+          if (label === "json") {
+            return "/monaco-editor/esm/vs/language/json/json.worker.js";
+          }
+          if (label === "css" || label === "scss" || label === "less") {
+            return "/monaco-editor/esm/vs/language/css/css.worker.js";
+          }
+          if (label === "html" || label === "handlebars" || label === "razor") {
+            return "/monaco-editor/esm/vs/language/html/html.worker.js";
+          }
+          if (label === "typescript" || label === "javascript") {
+            return "/monaco-editor/esm/vs/language/typescript/ts.worker.js";
+          }
+          return "/monaco-editor/esm/vs/editor/editor.worker.js";
+        },
+      };
+    </script>
+  </head>
+  <body class="h-full bg-background font-sans antialiased">
+    <!-- Root mount point for React -->
+    <div id="root" class="h-full"></div>
+
+    <!-- React entry point -->
+    <script type="module" src="/src/main.tsx"></script>
+
+    <!-- Fallback for users with JavaScript disabled -->
+    <noscript>
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          height: 100vh;
+          font-family: Inter, system-ui, sans-serif;
+          text-align: center;
+          padding: 2rem;
+        "
+      >
+        <h1 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem">
+          JavaScript Required
+        </h1>
+        <p style="color: #6b7280; max-width: 400px">
+          AI Interview Practice Partner requires JavaScript to run. Please
+          enable JavaScript in your browser settings and reload the page.
+        </p>
+      </div>
+    </noscript>
+  </body>
+</html>

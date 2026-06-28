@@ -1,0 +1,39 @@
+databases:
+  - name: interview-db
+    databaseName: interview_db
+    user: interview_user
+    region: oregon
+    plan: free
+
+services:
+  - type: redis
+    name: interview-redis
+    region: oregon
+    plan: free
+    ipAllowList: [] # only allow internal connections
+
+  - type: web
+    name: ai-interview-backend
+    env: python
+    region: oregon
+    plan: free
+    rootDir: ai-interview-partner/backend
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: interview-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: interview-redis
+          property: connectionString
+      # Note: The following variables must be set manually in the Render Dashboard
+      - key: FRONTEND_URL
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
