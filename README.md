@@ -64,6 +64,8 @@ Face detection
 Tab-switch monitoring
 Microphone monitoring
 Browser activity tracking
+<img width="1919" height="974" alt="Screenshot 2026-06-29 013603" src="https://github.com/user-attachments/assets/4cc424d3-1661-4340-9fff-61e36d5fb121" />
+
 
 Resume-Based Interviews
 
@@ -89,6 +91,7 @@ Coding interviews include:
 * AI code evaluation
 * Complexity analysis
 * Coding feedback
+<img width="1919" height="963" alt="Screenshot 2026-06-29 013730" src="https://github.com/user-attachments/assets/756a3cd8-a43c-42d6-85f7-b9bbe550924f" />
 
 AI Evaluation & Feedback
 
@@ -100,6 +103,7 @@ After every interview the platform generates a comprehensive performance report 
 * Problem Solving
 * Confidence
 * Grammar & Clarity
+<img width="1919" height="976" alt="Screenshot 2026-06-29 013813" src="https://github.com/user-attachments/assets/de76616e-0aa3-4e74-b7bd-b9b280c863cb" />
 
 The report also includes:
 
@@ -117,6 +121,8 @@ The dashboard allows users to:
 * Analyze score trends
 * Review previous reports
 * Monitor skill improvement
+* <img width="1919" height="975" alt="Screenshot 2026-06-29 013533" src="https://github.com/user-attachments/assets/dc3565cd-867d-4a1d-9f4d-d77a15dc4e2d" />
+
 
  System Architecture Overview
 
